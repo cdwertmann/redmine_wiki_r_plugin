@@ -1,4 +1,4 @@
-class CreateWikirs < ActiveRecord::Migration
+class CreateWikiRes < ActiveRecord::Migration
   def self.up
     create_table :wiki_rs do |t|
       t.column :hash, :string, :limit => 64, :null => false

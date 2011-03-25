@@ -13,7 +13,7 @@ module WikiRHelper
 		def initialize(view, source)
 		  @view = view
 		  @view.controller.extend(WikiRHelper)
-			source.gsub!(/<br \/>/,"")
+			source.gsub!(/<br \/>/,"\n")
 			source.gsub!(/<\/?p>/,"")
 			# defuse some malicious commands: system, unlink, file.*
 			source.gsub!(/system\s*\(/,"print(")

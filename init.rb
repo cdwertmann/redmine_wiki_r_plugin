@@ -1,12 +1,14 @@
 require 'redmine'
 
-RAILS_DEFAULT_LOGGER.info 'Starting wiki_r_plugin for Redmine'
+RAILS_DEFAULT_LOGGER.info 'Starting wiki_r_plugin'
 
 Redmine::Plugin.register :wiki_r_plugin do
-  name 'R Wiki-macro Plugin'
+  name 'R Wiki Macro Plugin'
+  url 'http://github.com/cdwertmann/redmine_wiki_r_plugin' if respond_to?(:url)
   author 'Christoph Dwertmann'
+  author_url 'mailto:cdwertmann@gmail.com'
   description 'Render R graphs'
-  version '0.0.1'
+  version '0.1'
 
 	Redmine::WikiFormatting::Macros.register do
 
@@ -20,7 +22,6 @@ EOF
 			m = WikiRHelper::Macro.new(self, args.to_s)
 			m.render
 		end
-
 
     # code borrowed from wiki template macro
     desc <<'EOF'

@@ -4,9 +4,9 @@ class WikiRController < ApplicationController
     @r = WikiR.find_by_image_id(params[:image_id])
     @name = params[:image_id]
     if @name != "error"
-      image_file = File.join([RAILS_ROOT, 'tmp', 'wiki_r_plugin', @name+".png"])
+      image_file = File.join([RAILS_ROOT, 'tmp', 'redmine_wiki_r_plugin', @name+".png"])
     else
-      image_file = File.join([RAILS_ROOT, 'public', 'plugin_assets', 'wiki_r_plugin', 'images', 'error.png'])
+      image_file = File.join([RAILS_ROOT, 'public', 'plugin_assets', 'redmine_wiki_r_plugin', 'images', 'error.png'])
     end
     if (!File.exists?(image_file))
       render_image
@@ -24,9 +24,9 @@ class WikiRController < ApplicationController
     @r = WikiR.find_by_image_id(params[:image_id])
     @name = params[:image_id]
     if @name != "error"
-      out_file = File.join([RAILS_ROOT, 'tmp', 'wiki_r_plugin', @name+".out"])
+      out_file = File.join([RAILS_ROOT, 'tmp', 'redmine_wiki_r_plugin', @name+".out"])
     else
-      out_file = File.join([RAILS_ROOT, 'public', 'plugin_assets', 'wiki_r_plugin', 'images', 'error.png'])
+      out_file = File.join([RAILS_ROOT, 'public', 'plugin_assets', 'redmine_wiki_r_plugin', 'images', 'error.png'])
     end
     if (File.exists?(out_file))
       #render :file => out_file, :layout => false, :content_type => 'text/plain'
@@ -46,8 +46,8 @@ class WikiRController < ApplicationController
 
     return if @name.include? "/"
 
-    image_file = File.join([RAILS_ROOT, 'tmp', 'wiki_r_plugin', @name+".png"])
-    out_file = File.join([RAILS_ROOT, 'tmp', 'wiki_r_plugin', @name+".out"])
+    image_file = File.join([RAILS_ROOT, 'tmp', 'redmine_wiki_r_plugin', @name+".png"])
+    out_file = File.join([RAILS_ROOT, 'tmp', 'redmine_wiki_r_plugin', @name+".out"])
 
     File.unlink(out_file) if (File.exists?(out_file))
     File.unlink(image_file) if (File.exists?(image_file))
@@ -59,24 +59,32 @@ class WikiRController < ApplicationController
 
   private
   def render_image
-    dir = File.join([RAILS_ROOT, 'tmp', 'wiki_r_plugin'])
+    dir = File.join([RAILS_ROOT, 'tmp', 'redmine_wiki_r_plugin'])
     begin
       Dir.mkdir(dir)
     rescue
     end
     basefilename = File.join([dir,@name])
-    temp_r = File.open(basefilename+".r",'w')
+    png_file = basefilename+".png"
+    r_file = basefilename+".r"
+    out_file = basefilename+".out"
+    error_file = File.join([RAILS_ROOT, 'public', 'plugin_assets', 'redmine_wiki_r_plugin', 'images', 'error.png'])
+    system("sudo -u nobody cp #{error_file} #{png_file}")
+    
+    temp_r = File.open(r_file,'w')
     #temp_r.puts('system("whoami");')
     #temp_r.puts('system("pwd");')
     #temp_r.puts('library(DBI); library(RSQLite); driver<-dbDriver("SQLite");')
     #temp_r.puts('connect<-dbConnect(driver, dbname = "/tmp/default_slice-2011-01-27t10.55.57+11.00.sq3");')
-    temp_r.puts('png("'+@name+'.png"); par(bg="aliceblue"); frame(); title(main="No graph was generated");')  
+    #temp_r.puts('png("'+@name+'.png"); par(bg="aliceblue"); frame(); title(main="No graph was generated");')
+    @r.source.gsub!(/%PNG%/,png_file)
     temp_r.puts @r.source
-    temp_r.puts('dev.off();')
+    #temp_r.puts('dev.off();')
     temp_r.flush
     temp_r.close
 
-    fork_exec(dir, "/usr/bin/xvfb-run -a /usr/bin/R --vanilla < "+@name+".r > "+@name+".out")
+    fork_exec(dir, "sudo -u nobody /usr/bin/xvfb-run -a /usr/bin/R --vanilla < #{r_file} > #{out_file}")
+    File.unlink(r_file)
     #fork_exec(dir, "sudo -u nobody /usr/bin/xvfb-run -a /usr/bin/R --vanilla < "+@name+".r > "+@name+".out")
 
     #fork_exec(dir, "/usr/bin/dvipng "+@name+".dvi -o "+@name+".png")
