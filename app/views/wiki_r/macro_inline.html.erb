@@ -1,0 +1,9 @@
+<img class='rinline' src='<%= url_for(:controller => 'wiki_r', :action => 'image', :image_id => name) %>' alt='<%= source %>' /><br><%= link_to_remote "Redraw", :url => { :controller => "wiki_r", :action => "redraw", :image_id => "#{name}" } %> || <%= link_to_remote "Show R output", :url => { :controller => "wiki_r", :action => "output", :image_id => "#{name}"} %>
+
+<div id='<%= name %>'>
+
+</div>
+
+<% content_for :header_tags do %>
+   <%= stylesheet_link_tag "wiki_r.css", :plugin => "wiki_r_plugin", :media => :all %>
+<% end %>

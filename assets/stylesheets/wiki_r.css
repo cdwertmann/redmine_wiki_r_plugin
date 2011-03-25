@@ -1,18 +1,18 @@
-.latexinline{
+.rinline{
   position: relative;
   bottom: -0.2em;
 }
 
-.latexblock img{
+.rblock img{
 	display: block;
 }
 
-.latexblock .wiki_page{
+.rblock .wiki_page{
 	font-size: 80%;
 	border-top: 1px solid #ccc;
 	color: #aaa;
 }
 
-.latexblock .wiki_page a{
+.rblock .wiki_page a{
 	color: #999;
 }
