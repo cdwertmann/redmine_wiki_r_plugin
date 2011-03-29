@@ -1,9 +1,6 @@
 R plugin for Redmine Wiki
 ====
 
-About
-----
-
 This Redmine Wiki R-macro plugin will allow Redmine to render
 graphs generated from inline R code in wiki pages.
 
@@ -12,7 +9,7 @@ Prerequisites
 
 The plugin has been tested with Redmine 1.0.2 on Ubuntu Linux.
 
-The plugin depends on R and xvfb and looks for them in
+It depends on R and xvfb and looks for them in
 */usr/bin/xvfb-run* and */usr/bin/R* respectively.
 
 You need to patch Redmine, otherwise you can't have commas in your R scripts.
