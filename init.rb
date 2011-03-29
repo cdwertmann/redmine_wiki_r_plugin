@@ -7,7 +7,7 @@ Redmine::Plugin.register :wiki_r_plugin do
   url 'http://github.com/cdwertmann/redmine_wiki_r_plugin' if respond_to?(:url)
   author 'Christoph Dwertmann'
   author_url 'mailto:cdwertmann@gmail.com'
-  description 'Render R graphs'
+  description 'Render R graphs on wiki pages'
   version '0.1'
 
 	Redmine::WikiFormatting::Macros.register do
