@@ -1,8 +1,10 @@
 R plugin for Redmine Wiki
 ====
 
-This Redmine Wiki R-macro plugin will allow Redmine to render
+This Redmine Wiki R-macro plugin will allow Redmine to render and embed
 graphs generated from inline R code in wiki pages.
+
+![http://ptmc.org/files/redmine_r.png](http://ptmc.org/files/redmine_r.png)
 
 Prerequisites
 ----

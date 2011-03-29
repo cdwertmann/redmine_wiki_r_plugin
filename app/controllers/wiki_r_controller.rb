@@ -3,13 +3,12 @@ class WikiRController < ApplicationController
   def image
     @r = WikiR.find_by_image_id(params[:image_id])
     @name = params[:image_id]
-    if @name != "error"
-      image_file = File.join([RAILS_ROOT, 'tmp', 'redmine_wiki_r_plugin', @name+".png"])
-    else
-      image_file = File.join([RAILS_ROOT, 'public', 'plugin_assets', 'redmine_wiki_r_plugin', 'images', 'error.png'])
-    end
+    image_file = File.join([RAILS_ROOT, 'tmp', 'redmine_wiki_r_plugin', @name+".png"])
     if (!File.exists?(image_file))
       render_image
+    end
+    if (!File.exists?(image_file))
+      image_file = File.join([RAILS_ROOT, 'public', 'plugin_assets', 'redmine_wiki_r_plugin', 'images', 'error.png'])
     end
     if (File.exists?(image_file))
       render :file => image_file, :layout => false, :content_type => 'image/png'
@@ -23,18 +22,17 @@ class WikiRController < ApplicationController
   def output
     @r = WikiR.find_by_image_id(params[:image_id])
     @name = params[:image_id]
-    if @name != "error"
-      out_file = File.join([RAILS_ROOT, 'tmp', 'redmine_wiki_r_plugin', @name+".out"])
-    else
-      out_file = File.join([RAILS_ROOT, 'public', 'plugin_assets', 'redmine_wiki_r_plugin', 'images', 'error.png'])
-    end
+    out_file = File.join([RAILS_ROOT, 'tmp', 'redmine_wiki_r_plugin', @name+".out"])
     if (File.exists?(out_file))
-      #render :file => out_file, :layout => false, :content_type => 'text/plain'
       render :update do |page|
         page.replace_html @name, :file => out_file, :layout => 'layouts/output.html.erb'
+        page.toggle @name
       end
     else
-      render_404
+      render :update do |page|
+        page.replace_html @name, "Error opening R output file '#{out_file}'"
+        page.toggle @name
+      end
     end
   rescue ActiveRecord::RecordNotFound
     render_404

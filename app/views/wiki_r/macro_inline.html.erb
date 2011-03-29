@@ -1,6 +1,6 @@
-<img class='rinline' src='<%= url_for(:controller => 'wiki_r', :action => 'image', :image_id => name) %>' alt='<%= source %>' /><br><%= link_to_remote "Redraw", :url => { :controller => "wiki_r", :action => "redraw", :image_id => "#{name}" } %> || <%= link_to_remote "Show R output", :url => { :controller => "wiki_r", :action => "output", :image_id => "#{name}"} %>
+<img class='rinline' src='<%= url_for(:controller => 'wiki_r', :action => 'image', :image_id => name) %>' alt='<%= source %>' /><br><small><%= link_to_remote "Redraw", :url => { :controller => "wiki_r", :action => "redraw", :image_id => "#{name}" } %> | <%= link_to_remote "R output", :url => { :controller => "wiki_r", :action => "output", :image_id => "#{name}"} %></small>
 
-<div id='<%= name %>'>
+<div id='<%= name %>' style="display:none">
 
 </div>
 
