@@ -55,7 +55,9 @@ to allow any user to write graph files there. If your rails server or apache is 
 
 	www-data ALL=(nobody) NOPASSWD: /usr/bin/xvfb-run
 
-The file should be owned by root with permissions 0440.
+The file should be owned by root with permissions 0440. Ensure that */etc/sudoers* contains the line
+
+	#includedir /etc/sudoers.d
 
 Usage
 ----
